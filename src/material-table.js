@@ -96,16 +96,6 @@ export default class MaterialTable extends React.Component {
       this.dataManager.setData(props.data);
     }
 
-    // If the columns changed and the defaultSorting differs from the current sorting, it will trigger a new sorting
-    const shouldReorder =
-      isInit ||
-      (defaultSortColumnIndex !== this.dataManager.orderBy &&
-        defaultSortDirection !== this.dataManager.orderDirection);
-    shouldReorder &&
-      this.dataManager.changeOrder(
-        defaultSortColumnIndex,
-        defaultSortDirection
-      );
     isInit && this.dataManager.changeSearchText(props.options.searchText || "");
     isInit &&
       this.dataManager.changeCurrentPage(
@@ -1068,25 +1058,26 @@ export default class MaterialTable extends React.Component {
                 <props.components.OverlayLoading theme={props.theme} />
               </div>
             )}
-          {this.state.errorState && this.state.errorState.errorCause === "query" && (
-            <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                height: "100%",
-                width: "100%",
-                zIndex: 11,
-              }}
-            >
-              <props.components.OverlayError
-                error={this.state.errorState}
-                retry={this.retry}
-                theme={props.theme}
-                icon={props.icons.Retry}
-              />
-            </div>
-          )}
+          {this.state.errorState &&
+            this.state.errorState.errorCause === "query" && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  height: "100%",
+                  width: "100%",
+                  zIndex: 11,
+                }}
+              >
+                <props.components.OverlayError
+                  error={this.state.errorState}
+                  retry={this.retry}
+                  theme={props.theme}
+                  icon={props.icons.Retry}
+                />
+              </div>
+            )}
         </props.components.Container>
       </DragDropContext>
     );
